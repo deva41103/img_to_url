@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image to URL Converter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        img {
+            margin-top: 20px;
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .url-box {
+            margin-top: 20px;
+            font-size: 16px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .copy-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .copied-text {
+            margin-top: 8px;
+            color: green;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an Image</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" required><br>
+            <input type="submit" value="Upload">
+        </form>
+
+        {% if image_url %}
+            <h2>Image Uploaded!</h2>
+            <img src="{{ image_url }}" alt="Uploaded Image">
+            <div class="url-box">
+                <p><strong>Image URL:</strong></p>
+                <a href="{{ image_url }}" target="_blank" id="imageUrl">{{ image_url }}</a><br>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy URL</button>
+                <div id="copiedText" class="copied-text">Copied to clipboard!</div>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const url = document.getElementById("imageUrl").href;
+            navigator.clipboard.writeText(url).then(function() {
+                const copiedText = document.getElementById("copiedText");
+                copiedText.style.display = "block";
+                setTimeout(() => {
+                    copiedText.style.display = "none";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
